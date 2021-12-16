@@ -1,0 +1,99 @@
+package com.ecommerceshoe.model;
+
+import java.util.Objects;
+
+public class Users {
+	 private String userName;       
+	private String password;  
+	private String firstName; 
+	private String lastName;
+	private Long mobileNo;
+	private String email;  
+	private int wallet;
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public Long getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(Long mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public int getWallet() {
+		return wallet;
+	}
+	public void setWallet(int wallet) {
+		this.wallet = wallet;
+	}
+	public Users(String userName, String password, String firstName, String lastName, Long mobileNo, String email,
+			int wallet) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mobileNo = mobileNo;
+		this.email = email;
+		this.wallet = wallet;
+	}
+	public Users() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Users [userName=" + userName + ", password=" + password + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", mobileNo=" + mobileNo + ", email=" + email + ", wallet=" + wallet + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, firstName, lastName, mobileNo, password, userName, wallet);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Users other = (Users) obj;
+		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(mobileNo, other.mobileNo)
+				&& Objects.equals(password, other.password) && Objects.equals(userName, other.userName)
+				&& wallet == other.wallet;
+	}
+	
+	
+	
+
+
+}
