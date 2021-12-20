@@ -1,0 +1,35 @@
+package com.ecommerceshoe.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.ecommerceshoe.model.Product;
+import com.ecommerceshoe.model.Users;
+
+public class ProductDao {
+	public static void inserproduct(Product product) {
+		ConnectionUtil conUtil = new ConnectionUtil();
+		String insertQuery = "insert into  Product(Brand_name,Brand_type,Brand_size,color,prices,manufacture_date) values(?,?,?,?,?,?)";
+		Connection con = conUtil.getDbconnection();
+		PreparedStatement pstmt = null;
+		try {
+
+			pstmt = con.prepareStatement(insertQuery);
+			pstmt.setString(1, product.getBrandName());
+			pstmt.setString(2, product.getBrandType());
+			pstmt.setInt(3, product.getBrandSize());
+			pstmt.setString(4,product.getColor());
+			pstmt.setDouble(5, product.getPrices());
+			pstmt.setDate(6,product.getManufactureDate());
+			int i=pstmt.executeUpdate();
+			System.out.println(i+"Value Inserted Successfully");
+
+		} catch (SQLException e) {
+			//catch the exception and get that message
+			e.printStackTrace();
+			System.out.println("Value not Setted in the query");
+		}
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.ecommerceshoe.model;
+
+import java.util.Date;
+
+public class Product {
+	private String productsId;
+	private String brandName;
+	private String brandType;
+	private int brandSize;
+	private String color;
+	private float prices;
+	private Date manufactureDate;
+
+}

@@ -1,0 +1,5 @@
+package com.ecommerceshoe.dao;
+
+public class ProductDao {
+
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>LoginPage</title>
+    <style>
+        label{
+            width:130px;
+            display: inline-block;
+        }
+        </style>
+</head>
+<body style="text-align:center"><form action="successpage.html" method="get"><div>
+    <h1><b>SIGNUP</b></h1>
+            <label for="id"><strong>UserId:</strong></label>
+            <input type="int" name="uid" id="userid" list="id" autofocus required><br><br>
+
+            <label for="NAME"><strong>Name:</strong></label>
+            <input type="text" name="nam" id="NAME" list="NAM"  required><br><br>
+
+             <label for="PASSWORD"><strong>Password:</strong></label>
+             <input type="password" name="pass" id="Password" list="word" required><br><br>
+             
+            <label for="FirstName"><strong >FirstName: </strong></label>
+            <input type="text" name="fname" id="firstname" list="fname" required><br><br>
+
+            <label for="LastName"><strong>LastName:</strong></label>
+            <input type="text" name="Lname" id="LastName" list="Lname"  required><br><br>
+
+             <label for="MobileNumber"><strong>MobileNumber:</strong></label>
+             <input type="tel" name="num" id="number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br><br>
+            <div>
+                <button><strong>Submit</strong></button>&nbsp &nbsp  &nbsp  &nbsp &nbsp &nbsp
+                <button type="reset"><strong>Reset</strong></button>
+            </div>
+</div>
+</form>
+</body>
+</html>

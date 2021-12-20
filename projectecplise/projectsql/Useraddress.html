@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CustomerPage</title>
+    <style>
+        label{
+            width:130px;
+            display: inline-block;
+        }
+       
+        </style>
+</head>
+<body style="text-align: center;"><form><div>
+    <h1><STRONG>USERADDRESS</STRONG></h1>
+    
+            <label for="UserAddressId"><strong >UserAddressId: </strong></label>
+            <input type="int" name="uaid" id="UserAddressId" list="uaid" autofocus required><br><br>
+
+            <label for="id"><strong>UserId:</strong></label>
+            <input type="int" name="uid" id="userid" list="id" required><br><br>
+
+            
+           <label  text-area style="height:200;width:300" for="Addressline1"><strong>AddressLine1:</strong></label>
+           <textarea  name="Add" id="Address1" list="Add" required></textarea><br><br> 
+
+          
+            <label for="Addressline2"><strong>AddressLine2:</strong></label>
+            <textarea  name="Add" id="Address2" list="Add" maxlength="100" required></textarea><br><br> 
+
+            <label for="city"><strong >City: </strong></label>
+            <input type="text" name="cit" id="city" list="cit" required><br><br>
+
+            <label for="postalcode"><strong>PostalCode:</strong></label>
+            <input type="int" name="code" id="postalcode" list="code"  required><br><br>
+
+            <label for="country"><strong >Country: </strong></label>
+            <input type="text" name="count" id="country" list="count" required><br><br>
+
+           
+            <label for="EmailId"><strong>EmailId: </strong></label>
+            <input type="email" name="emailid" id="EmailId" list="emailid" required><br><br>
+
+            <label for="MobileNo"><strong>MobileNO:</strong></label>
+            <input type="tel" name="pno" id="PhoneNumber" list="pno" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br><br>
+
+            <div>
+                <button><strong>Submit</strong></button>&nbsp &nbsp  &nbsp  &nbsp
+                <button type="reset"><strong>Reset</strong></button>
+            </div>
+
+
+</div>
+</form>  
+    
+</body>
+</html>
