@@ -10,22 +10,19 @@ import com.ecommerceshoe.model.Users;
 
 public class AdminDao {
 	public static Admin validateAdmin(String admin_email, String password) {
-		
-		String AdminQuery="select * from admins where admin_email ='"+admin_email+"'and password='"+password+"'";
-		Connection con=ConnectionUtil.getDbconnection();
-		Admin admin=null;
+
+		String AdminQuery = "select * from admins where admin_email ='" + admin_email + "'and password='" + password + "'";
+		Connection con = ConnectionUtil.getDbconnection();
+		Admin admin = null;
 		try {
-			
-			Statement stmt=con.createStatement();
-			ResultSet rs=stmt.executeQuery(AdminQuery);
-			if(rs.next())
-			{
-		//System.out.println(rs.getString(2)+"  "+rs.getLong(3));
-			
-			
-			admin=new Admin(admin_email,password);
+
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(AdminQuery);
+			if (rs.next()) {
+				// System.out.println(rs.getString(2)+" "+rs.getLong(3));
+
+				admin = new Admin(admin_email, password);
 			}
-			
 
 		} catch (SQLException e) {
 			// T5ODO Auto-generated catch block
@@ -33,19 +30,13 @@ public class AdminDao {
 			System.out.println("Statement error");
 		}
 
-		
-
-		
-		
-		
-		
 		return admin;
-		
+
 	}
 
 	public Admin AdminQuery(String admin_email, String password) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

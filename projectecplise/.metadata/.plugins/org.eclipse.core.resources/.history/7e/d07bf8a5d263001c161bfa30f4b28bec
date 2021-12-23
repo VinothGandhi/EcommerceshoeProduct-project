@@ -1,0 +1,59 @@
+ package com.ecommerceshoe.model;
+
+import java.util.Objects;
+
+public class cart {
+	private Product product;
+	private Users user;
+	private int Quantity;
+	
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public Users getUser() {
+		return user;
+	}
+	public void setUser(Users user) {
+		this.user = user;
+	}
+	public int getQuantity() {
+		return Quantity;
+	}
+	public void setQuantity(int quantity) {
+		Quantity = quantity;
+	}
+	public cart(Product product, Users user, int quantity) {
+		super();
+		this.product = product;
+		this.user = user;
+		Quantity = quantity;
+	}
+	public cart() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "cart [product=" + product + ", user=" + user + ", Quantity=" + Quantity + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(Quantity, product, user);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		cart other = (cart) obj;
+		return Quantity == other.Quantity && Objects.equals(product, other.product) && Objects.equals(user, other.user);
+	}
+	
+
+}

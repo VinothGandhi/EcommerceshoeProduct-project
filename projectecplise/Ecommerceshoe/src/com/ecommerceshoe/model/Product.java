@@ -4,52 +4,66 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Product {
+	
 	private String brandName;
 	private String brandType;
 	private int brandSize;
 	private String color;
 	private double prices;
 	private Date manufactureDate;
-	
+
 	public String getBrandName() {
 		return brandName;
 	}
+
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
+
 	public String getBrandType() {
 		return brandType;
 	}
+
 	public void setBrandType(String brandType) {
 		this.brandType = brandType;
 	}
+
 	public int getBrandSize() {
 		return brandSize;
 	}
+
 	public void setBrandSize(int brandSize) {
 		this.brandSize = brandSize;
 	}
+
 	public String getColor() {
 		return color;
 	}
+
 	public void setColor(String color) {
 		this.color = color;
 	}
+
 	public double getPrices() {
 		return prices;
 	}
+
 	public void setPrices(double prices) {
 		this.prices = prices;
 	}
+
 	public Date getManufactureDate() {
 		return manufactureDate;
 	}
+
 	public void setManufactureDate(Date manufactureDate) {
 		this.manufactureDate = manufactureDate;
 	}
+
 	public Product(String brandName, String brandType, int brandSize, String color, double prices,
 			Date manufactureDate) {
 		super();
+
 		this.brandName = brandName;
 		this.brandType = brandType;
 		this.brandSize = brandSize;
@@ -57,31 +71,18 @@ public class Product {
 		this.prices = prices;
 		this.manufactureDate = manufactureDate;
 	}
-	public Product() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	public Product(String brandName2, int brandSize2, double prices2) {
-		
-	}
-	public Product(String brandName1, int brandsize1, double price, String color1) {
-		this.brandName=brandName1;
-		this.brandSize=brandsize1;
-		
-		this.prices= price;
-		this.color=color1;
-	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(brandName, brandSize, brandType, color, manufactureDate, prices);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Product [brandName=" + brandName + ", brandType=" + brandType + ", brandSize=" + brandSize + ", color="
 				+ color + ", prices=" + prices + ", manufactureDate=" + manufactureDate + "]";
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -96,7 +97,5 @@ public class Product {
 				&& Objects.equals(manufactureDate, other.manufactureDate)
 				&& Double.doubleToLongBits(prices) == Double.doubleToLongBits(other.prices);
 	}
-	
-	
 
 }

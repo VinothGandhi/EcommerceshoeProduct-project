@@ -1,0 +1,43 @@
+package com.ecommerceshoe.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Date;
+
+import com.ecommerceshoe.model.Order;
+
+public class OrderDao {
+	public  int insertOrder( Order orders) {
+		
+		String orderQuery="insert into Orders_details(User_id,products_id,Quantity,Price,order_date) values (?,?,?,?,?) ";
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = conUtil.getDbconnection();
+		PreparedStatement pstmt = null;
+		int i=0;
+		try {
+
+			pstmt = con.prepareStatement(orderQuery);
+			UserDao userdao=new UserDao();
+			ProductDao productdao=new ProductDao();
+			int userId=userdao.findUserID(orders.getUser());
+		    int productId=productdao.findProductId(orders.getProduct());
+			pstmt.setInt(1,userId);
+			pstmt.setInt(2, productId);
+			pstmt.setInt(3,orders.getQuantity());
+			pstmt.setDouble(4,orders.getPrice());
+			pstmt.setDate(5, new java.sql.Date(orders.getOrderDate().getTime()));
+			int i = pstmt.executeUpdate();
+		
+
+		} catch (SQLException e) {
+			// catch the exception and get that message
+			e.printStackTrace();
+			System.out.println("Value not Setted in the query");
+		}
+		
+		return i;
+	
+	}
+	}
+

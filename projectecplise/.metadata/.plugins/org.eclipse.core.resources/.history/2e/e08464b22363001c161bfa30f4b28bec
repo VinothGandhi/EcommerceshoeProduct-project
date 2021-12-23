@@ -1,0 +1,13 @@
+package com.ecommerceshoe.dao;
+
+import com.ecommerceshoe.model.Order;
+
+public class OrderDao {
+	public  int insertOrder( Order orders) {
+		
+		String orderQuery="insert into "
+		return 0;
+	}
+	}
+
+}

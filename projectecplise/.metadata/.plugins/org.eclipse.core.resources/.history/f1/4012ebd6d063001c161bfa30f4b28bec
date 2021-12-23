@@ -1,0 +1,5 @@
+package com.ecommerceshoe.model;
+
+public class InvoiceBill {
+
+}
