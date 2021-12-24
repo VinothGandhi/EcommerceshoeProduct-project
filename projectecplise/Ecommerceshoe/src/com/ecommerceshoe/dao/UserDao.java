@@ -14,7 +14,7 @@ public class UserDao {
 
 	public static void inserUser(Users user) {
 		ConnectionUtil conUtil = new ConnectionUtil();
-		String insertQuery = "insert into  users1(Name,password,mobile_no,email_id,Address) values(?,?,?,?,?)";
+		String insertQuery = "insert into  users1(Name,password,mobile_no,email_id,Address,wallet) values(?,?,?,?,?,?)";
 		Connection con = conUtil.getDbconnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -25,6 +25,7 @@ public class UserDao {
 			pstmt.setLong(3, user.getMobileNo());
 			pstmt.setString(4, user.getEmail());
 			pstmt.setString(5, user.getAddress());
+			pstmt.setDouble(6, user.getWallet());
 			int i = pstmt.executeUpdate();
 			System.out.println(i + "Value Inserted Successfully");
 
@@ -90,7 +91,7 @@ public class UserDao {
 			if (rs.next()) {
 				// System.out.println(rs.getString(2)+" "+rs.getLong(3));
 
-				user = new Users(rs.getString(2),rs.getString(3),rs.getLong(4),rs.getString(5),rs.getString(6));
+				user = new Users(rs.getString(2),rs.getString(3),rs.getLong(4),rs.getString(5),rs.getString(6),rs.getDouble(7));
 				System.out.println(user);
 			}
 
@@ -115,7 +116,7 @@ public class UserDao {
 			stmt=con.createStatement();
 			ResultSet rs=stmt.executeQuery(Query);
 			if(rs.next()) {
-				user =new Users(rs.getString(2),rs.getString(3),rs.getLong(4),rs.getString(5),rs.getString(6));
+				user =new Users(rs.getString(2),rs.getString(3),rs.getLong(4),rs.getString(5),rs.getString(6),rs.getDouble(7));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -124,5 +125,63 @@ public class UserDao {
 		
 		
 	return user;
+	}
+	
+	public int updateuserWallet(Users user) {
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = ConnectionUtil.getDbconnection();
+		String Query="update users1 set wallet=? where email_id=?";
+		String getWalletquery="select wallet from users1 where email_id=?";
+		PreparedStatement pstmt=null;
+		int i=0;
+		try {
+		  pstmt = con.prepareStatement(getWalletquery);
+			pstmt.setString(1,user.getEmail());
+	       ResultSet rs=pstmt.executeQuery();
+	       double wallet=0;
+	       if(rs.next()) {
+	    	   wallet=rs.getDouble(1);
+	       }
+	       pstmt = con.prepareStatement(Query);
+	       pstmt.setDouble(1,wallet+user.getWallet());
+	       pstmt.setString(2,user.getEmail());
+	        i=pstmt.executeUpdate();
+	       System.out.println(i+"updated");
+	       
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return i;
+
+	}
+	
+	public int Walletupdate(double Prices, Users user) {
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = ConnectionUtil.getDbconnection();
+		String Query = "update users1 set wallet=? where email_id=?";
+		String getWalletquery = "select wallet from users1 where email_id=?";
+		PreparedStatement pstmt = null;
+		int a = 0;
+		try {
+			pstmt = con.prepareStatement(getWalletquery);
+			pstmt.setString(1, user.getEmail());
+			ResultSet rs = pstmt.executeQuery();
+			double wallet = 0;
+			if (rs.next()) {
+				wallet = rs.getDouble(1);
+			}
+			pstmt = con.prepareStatement(Query);
+			pstmt.setDouble(1, wallet-Prices);
+			pstmt.setString(2, user.getEmail());
+			a = pstmt.executeUpdate();
+			System.out.println(a + "updated");
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return a;
+
 	}
 }

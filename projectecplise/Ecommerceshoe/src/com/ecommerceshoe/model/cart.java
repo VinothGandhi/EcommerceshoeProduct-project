@@ -5,7 +5,8 @@ import java.util.Objects;
 public class cart {
 	private Product product;
 	private Users user;
-	private String Status;
+	private int quantity;
+	private double price;
 	public Product getProduct() {
 		return product;
 	}
@@ -18,29 +19,41 @@ public class cart {
 	public void setUser(Users user) {
 		this.user = user;
 	}
-	public String getStatus() {
-		return Status;
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setStatus(String status) {
-		Status = status;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
-	public cart(Product product, Users user, String status) {
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public cart(Product product, Users user, int quantity, double price) {
 		super();
 		this.product = product;
 		this.user = user;
-		Status = status;
+		this.quantity = quantity;
+		this.price = price;
 	}
 	public cart() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public cart(Product product1, Users user1, int quantity2) {
+	this.product=product1;
+	this.user=user1;
+	this.quantity=quantity2;
+	}
 	@Override
 	public String toString() {
-		return "cart [product=" + product + ", user=" + user + ", Status=" + Status + "]";
+		return "cart [product=" + product + ", user=" + user + ", quantity=" + quantity + ", price=" + price + "]";
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(Status, product, user);
+		return Objects.hash(price, product, quantity, user);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -51,9 +64,10 @@ public class cart {
 		if (getClass() != obj.getClass())
 			return false;
 		cart other = (cart) obj;
-		return Objects.equals(Status, other.Status) && Objects.equals(product, other.product)
+		return Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
+				&& Objects.equals(product, other.product) && quantity == other.quantity
 				&& Objects.equals(user, other.user);
 	}
 	
-
+	
 }

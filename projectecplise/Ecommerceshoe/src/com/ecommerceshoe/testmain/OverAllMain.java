@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import com.ecommerceshoe.dao.AdminDao;
+import com.ecommerceshoe.dao.CartDao;
 import com.ecommerceshoe.dao.ConnectionUtil;
 import com.ecommerceshoe.dao.OrderDao;
 import com.ecommerceshoe.dao.ProductDao;
@@ -18,16 +19,19 @@ import com.ecommerceshoe.model.Admin;
 import com.ecommerceshoe.model.Order;
 import com.ecommerceshoe.model.Product;
 import com.ecommerceshoe.model.Users;
+import com.ecommerceshoe.model.cart;
 
 public class OverAllMain {
 
 	public static void main(String[] args) throws ParseException {
 		Scanner sc = new Scanner(System.in);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		System.out.println("\n1.AdminLogin\n2.CreateAccount\n3.UserLogin\n4show order\nEnter your Choice");
+		System.out.println("\n1.AdminLogin\n2.CreateAccount\n3.UserLogin\n4.show order\n5.insertcart\n6.showcart\nEnter your Choice");
 		int choice = Integer.parseInt(sc.nextLine());
 		Users user = null;
 		Admin admin = null;
+		double amount = 0;
+		Users currentUser=null; ;
 		switch (choice) {
 		case 1:
 			admin = new Admin();
@@ -203,6 +207,7 @@ public class OverAllMain {
 			long mobileNo = 0;
 			String email = null;
 			String Address = null;
+			Double wallet=null;
 			do {
 				System.out.println("enter the Username details");
 				Name = sc.nextLine();
@@ -256,10 +261,10 @@ public class OverAllMain {
 					System.out.println("Address cant be empty");
 				}
 			} while (Address.isEmpty());
-
-			user = new Users(Name, password, mobileNo, email, Address);
+            System.out.println("enter the wallet amount");
+            wallet=sc.nextDouble();
+			user = new Users(Name, password, mobileNo, email, Address,wallet);
 			UserDao.inserUser(user);
-
 		case 3:
 			user = new Users();
 			String email_id = null;
@@ -289,14 +294,16 @@ public class OverAllMain {
 					}
 				} while (!password.matches("[a-zA-Z0-9@#!.&]{8,16}"));
 
-				UserDao currentUser = new UserDao();
-				i = currentUser.validateUser(email_id, password);
+				UserDao currentUser1 = new UserDao();
+				i = currentUser1.validateUser(email_id, password);
 				if (i != 0) {
 					System.out.println("Welcome");
 
 				} else {
 					System.out.println("invalid email or password ");
 				}
+			
+				
 				System.out.println("List of Products");
 				ProductDao proDao1= new ProductDao();
 				System.out.println();
@@ -309,8 +316,9 @@ public class OverAllMain {
 			} while (i == 0);
 			char stop;
 			do {
-		
-			Date orderDate=null;
+				boolean k=false;
+				UserDao userDao = null;
+//			Date orderDate=null;
 			System.out.println("Order Your Purchase");
 			System.out.println("enter brand name");
 			String proName=sc.nextLine();
@@ -333,27 +341,88 @@ public class OverAllMain {
 			int quantity=Integer.parseInt(sc.nextLine());
 			
 //			System.out.println("enter the price");
-//			Double price=Double.parseDouble(sc.nextLine());
-			
-			System.out.println("enter the date");
-			String TempDate1=sc.nextLine();
-			
-			 orderDate=sdf.parse(TempDate1);
-		
-			Order order=new Order(product1,user1,quantity,orderDate);
+//			Double price=Double.parseDouble(sc.nextLine());			
+			Date today=new Date();
+//			String TempDate1=sc.nextLine();
+//			 orderDate=sdf.parse(TempDate1);
+			Order order=new Order(product1,user1,quantity,today);
 			OrderDao orderdao=new OrderDao();
 			orderdao.insertOrder(order);
 			System.out.println("Order Successfull");
+			if(k==true) {
+			
+			userDao.Walletupdate(amount, currentUser);
+			System.out.println("Wallet recharge successfull");
+			
+			}
+
+			System.out.println("Recharge here wallet");
+			System.out.println("Enter amount");
+			amount = Double.parseDouble(sc.nextLine());
+			System.out.println("Enter card number");
+			long cardNo = Long.parseLong(sc.nextLine());
+			System.out.println("Enter cvv");
+			int cvv = Integer.parseInt(sc.nextLine());
+			currentUser.setWallet(amount);
+			
+			userDao.updateuserWallet(currentUser);
+			
 			System.out.println("do you continue yes or no");
 			stop = sc.nextLine().charAt(0);
 
 			}while (stop == 'Y' || stop == 'y');
+			
 			break;
 		case 4:
 			OrderDao orderdao =new OrderDao();
 			List<Order> orderList=orderdao.ShowOrder();
 			for(int j=0;j<orderList.size();j++) {
 				System.out.println(orderList.get(j));
+			} break;
+		case 5:
+		 CartDao cartDao = null;
+//			Date orderDate=null;
+			System.out.println("Display on Cart");
+			System.out.println("enter brand name");
+			String proName=sc.nextLine();
+			System.out.println("enter brand type");
+			String proType=sc.nextLine();
+			System.out.println("enter brand size ");
+			int bdSize=Integer.parseInt(sc.nextLine());
+			System.out.println("enter brand color");
+			String colorName=sc.nextLine();
+			ProductDao proDt=new ProductDao();
+			
+		    Product product1=proDt.findProduct(proName, proType, bdSize, colorName);
+		   
+			System.out.println("enter the mailI");
+			String email1=sc.nextLine();
+			UserDao userdao =new UserDao();
+			Users user1=userdao.findUser(email1);
+			
+			System.out.println("enter the quantity");
+			int quantity=Integer.parseInt(sc.nextLine());
+			
+			
+			//			System.out.println("enter the price");
+//			Double price=Double.parseDouble(sc.nextLine());			
+//			Date today=new Date();
+//			String TempDate1=sc.nextLine();
+//			 orderDate=sdf.parse(TempDate1);
+			cart carts=new cart(product1,user1,quantity);
+			CartDao cartDao1=new CartDao();
+			
+			cartDao1.insertCart(carts);
+			System.out.println("Cart Added Successfull");
+			
+			System.out.println("do you continue yes or no");
+			stop = sc.nextLine().charAt(0);
+
+		case 6:
+			CartDao cartDao11 =new CartDao();
+			List<cart> cartList=cartDao11.showCart();
+			for(int j=0;j<cartList.size();j++) {
+				System.out.println(cartList.get(j));
 			} break;
 
 		}

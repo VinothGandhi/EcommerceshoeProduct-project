@@ -8,6 +8,7 @@ public class Users {
 	private Long mobileNo;
 	private String email;
 	private String Address;
+	private Double wallet;
 
 	public String getName() {
 		return Name;
@@ -48,14 +49,24 @@ public class Users {
 	public void setAddress(String address) {
 		Address = address;
 	}
+	
 
-	public Users(String name, String password, Long mobileNo, String email, String address) {
+	public Double getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(Double wallet) {
+		this.wallet = wallet;
+	}
+
+	public Users(String name, String password, Long mobileNo, String email, String address,double wallet) {
 		super();
 		Name = name;
 		this.password = password;
 		this.mobileNo = mobileNo;
 		this.email = email;
 		Address = address;
+		this.wallet=wallet;
 	}
 
 	public Users() {
@@ -66,12 +77,12 @@ public class Users {
 	@Override
 	public String toString() {
 		return "Users [Name=" + Name + ", password=" + password + ", mobileNo=" + mobileNo + ", email=" + email
-				+ ", Address=" + Address + "]";
+				+ ", Address=" + Address + ",wallet="+wallet+"]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Address, Name, email, mobileNo, password);
+		return Objects.hash(Address, Name, email, mobileNo, password,wallet);
 	}
 
 	@Override
@@ -85,7 +96,7 @@ public class Users {
 		Users other = (Users) obj;
 		return Objects.equals(Address, other.Address) && Objects.equals(Name, other.Name)
 				&& Objects.equals(email, other.email) && Objects.equals(mobileNo, other.mobileNo)
-				&& Objects.equals(password, other.password);
+				&& Objects.equals(password, other.password)&&Objects.equals(wallet,other.wallet);
 	}
 
 }
