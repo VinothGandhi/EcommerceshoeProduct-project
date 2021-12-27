@@ -31,7 +31,7 @@ public class OverAllMain {
 		Users user = null;
 		Admin admin = null;
 		double amount = 0;
-		Users currentUser=null; ;
+		
 		switch (choice) {
 		case 1:
 			admin = new Admin();
@@ -266,10 +266,11 @@ public class OverAllMain {
 			user = new Users(Name, password, mobileNo, email, Address,wallet);
 			UserDao.inserUser(user);
 		case 3:
+			UserDao userDao = null;
 			user = new Users();
+			
 			String email_id = null;
-
-			int i;
+      
 			do {
 				System.out.println("LOGIN");
 				do {
@@ -294,9 +295,9 @@ public class OverAllMain {
 					}
 				} while (!password.matches("[a-zA-Z0-9@#!.&]{8,16}"));
 
-				UserDao currentUser1 = new UserDao();
-				i = currentUser1.validateUser(email_id, password);
-				if (i != 0) {
+				
+				user= UserDao.validateUser(email_id, password);
+				if (user != null) {
 					System.out.println("Welcome");
 
 				} else {
@@ -313,11 +314,11 @@ public class OverAllMain {
 
 				}
 
-			} while (i == 0);
+			} while (user == null);
 			char stop;
 			do {
 				boolean k=false;
-				UserDao userDao = null;
+				
 //			Date orderDate=null;
 			System.out.println("Order Your Purchase");
 			System.out.println("enter brand name");
@@ -331,7 +332,7 @@ public class OverAllMain {
 			ProductDao proDt=new ProductDao();
 			
 		    Product product1=proDt.findProduct(proName, proType, bdSize, colorName);
-		   
+		   double amountPrice =product1.getPrices();
 			System.out.println("enter the mailI");
 			String email1=sc.nextLine();
 			UserDao userdao =new UserDao();
@@ -348,13 +349,14 @@ public class OverAllMain {
 			Order order=new Order(product1,user1,quantity,today);
 			OrderDao orderdao=new OrderDao();
 			orderdao.insertOrder(order);
+					
+		      System.out.println("Amoutn"+ amountPrice);
+			UserDao.Walletupdate(amountPrice, user);
 			System.out.println("Order Successfull");
-			if(k==true) {
-			
-			userDao.Walletupdate(amount, currentUser);
+
 			System.out.println("Wallet recharge successfull");
 			
-			}
+			
 
 			System.out.println("Recharge here wallet");
 			System.out.println("Enter amount");
@@ -363,9 +365,9 @@ public class OverAllMain {
 			long cardNo = Long.parseLong(sc.nextLine());
 			System.out.println("Enter cvv");
 			int cvv = Integer.parseInt(sc.nextLine());
-			currentUser.setWallet(amount);
+			user.setWallet(amount);
 			
-			userDao.updateuserWallet(currentUser);
+			UserDao.updateuserWallet(user);
 			
 			System.out.println("do you continue yes or no");
 			stop = sc.nextLine().charAt(0);

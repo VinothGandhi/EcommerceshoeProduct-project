@@ -180,11 +180,13 @@ public class ProductDao {
 		
 	return product;
 	}
-//	public double findPrice(Product product) {
-//		ConnectionUtil conUtil = new ConnectionUtil();
-//		Connection con = ConnectionUtil.getDbconnection();
-//		String Query1="select price from Product where products_id='"+product.get +"'";
-//		
-//		return 0;
-//	}
+	public double findPrice(int pid) {
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = ConnectionUtil.getDbconnection();
+		String Query1="select price from Product where products_id=?";
+		System.out.println(pid);
+		
+		
+		return 0;
+	}
 }

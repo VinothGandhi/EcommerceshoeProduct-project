@@ -36,26 +36,30 @@ public class UserDao {
 		}
 	}
 
-	public static int validateUser(String email, String password) {
-		String validateQuery = "select * from users1 where email_id =? and password= ?";
+	public static Users validateUser(String email, String password) {
+		String validateQuery = "select * from users1 where email_id ='"+email+"' and password= '"+password+"'";
 		ConnectionUtil conUtil;
 		Connection con = ConnectionUtil.getDbconnection();
-		PreparedStatement pstmt = null;
-		int i = 0;
-		try {
-			pstmt = con.prepareStatement(validateQuery);
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
-			i = pstmt.executeUpdate();
-			System.out.println("validate");
+		
+		Statement stmt=null;
+		Users user=null;
+		try
+		{
+			stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery(validateQuery);
+			if (rs.next()) {
+				// System.out.println(rs.getString(2)+" "+rs.getLong(3));
+
+				user = new Users(rs.getString(2),password,rs.getLong(4),email,rs.getString(6),rs.getDouble(7));
+				System.out.println(user);
+			}
 
 		} catch (SQLException e) {
 			// T5ODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Statement error");
 		}
-
-		return i;
+		return user;
 	}
 
 	public int findUserID(Users user) {
@@ -127,7 +131,7 @@ public class UserDao {
 	return user;
 	}
 	
-	public int updateuserWallet(Users user) {
+	public  static int updateuserWallet(Users user) {
 		ConnectionUtil conUtil = new ConnectionUtil();
 		Connection con = ConnectionUtil.getDbconnection();
 		String Query="update users1 set wallet=? where email_id=?";
@@ -156,23 +160,25 @@ public class UserDao {
 
 	}
 	
-	public int Walletupdate(double Prices, Users user) {
+	public static int Walletupdate(double OrderPrices, Users user) {
 		ConnectionUtil conUtil = new ConnectionUtil();
 		Connection con = ConnectionUtil.getDbconnection();
-		String Query = "update users1 set wallet=? where email_id=?";
+		System.out.println(OrderPrices);
+		String Query = "update users1 set wallet=wallet-? where email_id=?";
 		String getWalletquery = "select wallet from users1 where email_id=?";
 		PreparedStatement pstmt = null;
 		int a = 0;
 		try {
 			pstmt = con.prepareStatement(getWalletquery);
+			
 			pstmt.setString(1, user.getEmail());
 			ResultSet rs = pstmt.executeQuery();
 			double wallet = 0;
 			if (rs.next()) {
-				wallet = rs.getDouble(1);
+wallet = rs.getDouble(1);
 			}
 			pstmt = con.prepareStatement(Query);
-			pstmt.setDouble(1, wallet-Prices);
+			pstmt.setDouble(1, OrderPrices);
 			pstmt.setString(2, user.getEmail());
 			a = pstmt.executeUpdate();
 			System.out.println(a + "updated");
