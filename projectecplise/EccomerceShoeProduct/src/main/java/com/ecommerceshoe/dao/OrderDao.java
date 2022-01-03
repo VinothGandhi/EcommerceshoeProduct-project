@@ -1,80 +1,10 @@
-package com.ecommerceshoe.dao;
+package com.ecommerceshoe.Dao;
 
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.ecommerceshoe.interfaceDao.OrderDaoInterface;
 import com.ecommerceshoe.model.Order;
-import com.ecommerceshoe.model.Product;
-import com.ecommerceshoe.model.Users;
 
-public class OrderDao implements OrderDaoInterface {
-	public  int insertOrder( Order orders) {
-		
-		String orderQuery="insert into Orders_details(User_id,products_id,Quantity,Price,order_date) values (?,?,?,?,?) ";
-		ConnectionUtil conUtil = new ConnectionUtil();
-		Connection con = conUtil.getDbconnection();
-		PreparedStatement pstmt = null;
-		int i=0;
-		try {
-			pstmt = con.prepareStatement(orderQuery);
-			UserDao userdao=new UserDao();
-			ProductDao productdao=new ProductDao();
-			int userId=userdao.findUserID(orders.getUser());
-		    int productId=productdao.findProductId(orders.getProduct());
-			pstmt.setInt(1,userId);
-			pstmt.setInt(2, productId);
-			pstmt.setInt(3,orders.getQuantity());
-			pstmt.setDouble(4,orders.getProduct().getPrices()*orders.getQuantity());
-			pstmt.setDate(5, new java.sql.Date(orders.getOrderDate().getTime()));
-			 i = pstmt.executeUpdate();
-			 
-		} catch (SQLException e) {
-			// catch the exception and get that message
-			e.printStackTrace();
-			System.out.println("Value not Setted in the query");
-		}
-		
-		return i;
-	
-	}
-	public List<Order> ShowOrder(){
-		ConnectionUtil conUtil = new ConnectionUtil();
-		Connection con = conUtil.getDbconnection();
-		List<Order> orderList=new ArrayList<Order>();
-		String Query="select * from Orders_details";
-	   Statement stmt;
-	   Order order=null;
-	try {
-		stmt = con.createStatement();
-		ResultSet rs=stmt.executeQuery(Query);
-	   UserDao userdao=new UserDao();
-	   ProductDao productdao=new ProductDao();
-	   
-		
-		while(rs.next()) {
-			   
-		   Users user=userdao.findUserId(rs.getInt(3));
-		   Product product=productdao.findProduct(rs.getInt(2));
-		    order=new Order( product,user,rs.getInt(4),rs.getDouble(5),rs.getDate(6));
-		    orderList.add(order);
-			
-		}
-			
-		}
-		catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-	return orderList;
-	}
+public interface OrderDao {
+	public  int insertOrder( Order orders);
+	public List<Order> ShowOrder();
 }
-

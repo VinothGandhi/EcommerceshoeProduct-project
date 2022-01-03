@@ -65,10 +65,11 @@ public class Users {
 		this.password = password;
 		this.mobileNo = mobileNo;
 		this.email = email;
-		Address = address;
+		this.Address = address;
 		this.wallet=wallet;
 	}
 
+	
 	public Users() {
 		super();
 		// TODO Auto-generated constructor stub

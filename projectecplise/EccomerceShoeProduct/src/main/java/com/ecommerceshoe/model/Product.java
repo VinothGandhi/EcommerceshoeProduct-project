@@ -4,13 +4,21 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Product {
-	
+	private int productId;
 	private String brandName;
 	private String brandType;
 	private int brandSize;
 	private String color;
 	private double prices;
 	private Date manufactureDate;
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
 	public String getBrandName() {
 		return brandName;
@@ -70,6 +78,17 @@ public class Product {
 		this.color = color;
 		this.prices = prices;
 		this.manufactureDate = manufactureDate;
+	}
+
+	public Product(int int1, String string, String string2, int int2, String string3, double double1,
+			java.sql.Date date) {
+		this.productId=int1;
+		this.brandName=string;
+		this.brandType=string2;
+		this.brandSize=int2;
+		this.color=string3;
+		this.prices=double1;
+		this.manufactureDate=date;
 	}
 
 	@Override

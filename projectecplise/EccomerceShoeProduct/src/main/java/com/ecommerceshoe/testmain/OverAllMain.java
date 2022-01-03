@@ -10,25 +10,25 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-import com.ecommerceshoe.dao.AdminDao;
-import com.ecommerceshoe.dao.CartDao;
-import com.ecommerceshoe.dao.ConnectionUtil;
-import com.ecommerceshoe.dao.InvoiceDao;
-import com.ecommerceshoe.dao.OrderDao;
-import com.ecommerceshoe.dao.ProductDao;
-import com.ecommerceshoe.dao.UserDao;
+import com.ecommerceshoe.daoimpl.AdminDaoImpl;
+import com.ecommerceshoe.daoimpl.CartDaoImpl;
+import com.ecommerceshoe.daoimpl.InvoiceDaoImpl;
+import com.ecommerceshoe.daoimpl.OrderDaoImpl;
+import com.ecommerceshoe.daoimpl.ProductDaoImpl;
+import com.ecommerceshoe.daoimpl.UserDaoImpl;
 import com.ecommerceshoe.model.Admin;
 import com.ecommerceshoe.model.Order;
 import com.ecommerceshoe.model.Product;
 import com.ecommerceshoe.model.Users;
 import com.ecommerceshoe.model.cart;
+import com.ecommerceshoe.util.ConnectionUtil;
 
 public class OverAllMain {
 
 	public static void main(String[] args) throws ParseException {
 		Scanner sc = new Scanner(System.in);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		System.out.println("\n1.AdminLogin\n2.CreateAccount\n3.UserLogin\n4.show order\n5.insertcart\n6.showcart\nEnter your Choice");
+		System.out.println("\n1.AdminLogin\n2.CreateAccount\n3.UserLogin\n4.show order\n5.insertcart\n6.showcart\n7.filtersize\nEnter your Choice");
 		int choice = Integer.parseInt(sc.nextLine());
 		Users user = null;
 		Admin admin = null;
@@ -63,7 +63,7 @@ public class OverAllMain {
 					}
 				} while (!password.matches("[a-zA-Z0-9@#!.&]{8,16}"));
 
-				AdminDao currentAdmin = new AdminDao();
+				AdminDaoImpl currentAdmin = new AdminDaoImpl();
 				admin = currentAdmin.validateAdmin(admin_email, password);
 				if (admin != null) {
 					System.out.println("Welcome Admin");
@@ -75,14 +75,16 @@ public class OverAllMain {
 			} while (admin == null);
 
 			Product product = null;
-			ProductDao productdao = new ProductDao();
+			ProductDaoImpl productdao = new ProductDaoImpl();
 			System.out.println("PRODUCT");
 			// showProduct
 			System.out.println("List of Products");
-			ProductDao proDao = new ProductDao();
+			
+			ProductDaoImpl proDao = new ProductDaoImpl();
 			System.out.println();
 			List<Product> ProductList = proDao.showProduct();
 			for (int i = 0; i < ProductList.size(); i++) {
+				
 				System.out.println(ProductList.get(i));
 
 			}
@@ -265,11 +267,11 @@ public class OverAllMain {
 			} while (Address.isEmpty());
             System.out.println("enter the wallet amount");
             wallet=sc.nextDouble();
-            UserDao userDao1=new UserDao();
+            UserDaoImpl userDao1=new UserDaoImpl();
 			user = new Users(Name, password, mobileNo, email, Address,wallet);
 			userDao1.inserUser(user);
 		case 3:
-			UserDao userDao = null;
+			UserDaoImpl userDao = null;
 			user = new Users();
 			
 			String email_id = null;
@@ -309,7 +311,7 @@ public class OverAllMain {
 			
 				
 				System.out.println("List of Products");
-				ProductDao proDao1= new ProductDao();
+				ProductDaoImpl proDao1= new ProductDaoImpl();
 				System.out.println();
 				List<Product> ProductList1 = proDao1.showProduct();
 				for (int i1 = 0; i1 < ProductList1.size(); i1++) {
@@ -332,13 +334,13 @@ public class OverAllMain {
 			int bdSize=Integer.parseInt(sc.nextLine());
 			System.out.println("enter brand color");
 			String colorName=sc.nextLine();
-			ProductDao proDt=new ProductDao();
+			ProductDaoImpl proDt=new ProductDaoImpl();
 			
 		    Product product1=proDt.findProduct(proName, proType, bdSize, colorName);
 		   double amountPrice =product1.getPrices();
 			System.out.println("enter the mailI");
 			String email1=sc.nextLine();
-			UserDao userdao =new UserDao();
+			UserDaoImpl userdao =new UserDaoImpl();
 			Users user1=userdao.findUser(email1);
 			
 			System.out.println("enter the quantity");
@@ -350,14 +352,14 @@ public class OverAllMain {
 //			String TempDate1=sc.nextLine();
 //			 orderDate=sdf.parse(TempDate1);
 			Order order=new Order(product1,user1,quantity,today);
-			OrderDao orderdao=new OrderDao();
+			OrderDaoImpl orderdao=new OrderDaoImpl();
 			orderdao.insertOrder(order);
 					
 		      System.out.println("Amount"+ amountPrice);
 			userDao.Walletupdate(amountPrice, user);
 			System.out.println("Order Successfull");
 			
-            InvoiceDao invoicedao=new InvoiceDao();
+            InvoiceDaoImpl invoicedao=new InvoiceDaoImpl();
             ResultSet rs= invoicedao.showBill(user);
             System.out.println("InvoiceBill");
             System.out.format("%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s\n","userName","mobileno","email","address","productid","quantity","price","date");
@@ -396,13 +398,13 @@ public class OverAllMain {
 			
 			break;
 		case 4:
-			OrderDao orderdao =new OrderDao();
+			OrderDaoImpl orderdao =new OrderDaoImpl();
 			List<Order> orderList=orderdao.ShowOrder();
 			for(int j=0;j<orderList.size();j++) {
 				System.out.println(orderList.get(j));
 			} break;
 		case 5:
-		 CartDao cartDao = null;
+		 CartDaoImpl cartDao = null;
 //			Date orderDate=null;
 			System.out.println("Display on Cart");
 			System.out.println("enter brand name");
@@ -413,13 +415,13 @@ public class OverAllMain {
 			int bdSize=Integer.parseInt(sc.nextLine());
 			System.out.println("enter brand color");
 			String colorName=sc.nextLine();
-			ProductDao proDt=new ProductDao();
+			ProductDaoImpl proDt=new ProductDaoImpl();
 			
 		    Product product1=proDt.findProduct(proName, proType, bdSize, colorName);
 		   
 			System.out.println("enter the mailI");
 			String email1=sc.nextLine();
-			UserDao userdao =new UserDao();
+			UserDaoImpl userdao =new UserDaoImpl();
 			Users user1=userdao.findUser(email1);
 			
 			System.out.println("enter the quantity");
@@ -432,7 +434,7 @@ public class OverAllMain {
 //			String TempDate1=sc.nextLine();
 //			 orderDate=sdf.parse(TempDate1);
 			cart carts=new cart(product1,user1,quantity);
-			CartDao cartDao1=new CartDao();
+			CartDaoImpl cartDao1=new CartDaoImpl();
 			
 			cartDao1.insertCart(carts);
 			System.out.println("Cart Added Successfull");
@@ -441,12 +443,22 @@ public class OverAllMain {
 			stop = sc.nextLine().charAt(0); 
 
 		case 6:
-			CartDao cartDao11 =new CartDao();
+			CartDaoImpl cartDao11 =new CartDaoImpl();
 			List<cart> cartList=cartDao11.showCart();
 			for(int j=0;j<cartList.size();j++) {
 				System.out.println(cartList.get(j));
 			} break;
+		case 7:
+			System.out.println("enter the brandname");
+			String BrandName=sc.nextLine();
+			System.out.println("enter the size");
+			int BrandSize=Integer.parseInt(sc.nextLine());
+			ProductDaoImpl proDao1= new ProductDaoImpl();
+			List<Product> SizeList = proDao1.filterSize(BrandName, BrandSize);
+			for (int i1 = 0; i1 < SizeList.size(); i1++) {
+				System.out.println(SizeList.get(i1));
 
+			}
 		}
 	}
 }

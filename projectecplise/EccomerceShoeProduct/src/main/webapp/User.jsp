@@ -10,10 +10,24 @@
             width:80px;
             display: inline-block;
         }
+        #invalhead{
         
+        font-size:50px;
+        color:red;
+        }
         </style>
 </head>
 <body>
+
+<%
+if(session.getAttribute("upmiss") != null){
+	boolean flag = (boolean)session.getAttribute("upmiss");
+	session.removeAttribute("upmiss");
+	if(flag){%>
+		<h1 id = "invalhead">INVALID USERMAIL OR PASSWORD</h1>
+	<% }%>
+<% }
+%>
 <form action="User" method="post">
 <div style="text-align:center">
     <h1><b>USERLOGIN</b></h1>
@@ -25,10 +39,15 @@
       
      <div>
         <button><strong>Login</strong></button>  
-            
+         <a href="newUser.jsp"> createaccount?</a>
      </div>
     
 </div>
 </form>
 </body>
+<script >
+
+
+
+</script>
 </html>
