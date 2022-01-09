@@ -31,6 +31,7 @@ public class ProductDaoImpl implements ProductDao {
 			pstmt.setString(4, color);
 			pstmt.setDouble(5, prices);
 			pstmt.setDate(6, new java.sql.Date(manufactureDate.getTime()));
+			
 			 i = pstmt.executeUpdate();
 			System.out.println(i + "Value Inserted Successfully");
 		} catch (SQLException e) {
@@ -104,8 +105,8 @@ public class ProductDaoImpl implements ProductDao {
 		return productsList;
 	}
 
-	public  int findProductId(Product product) {
-		String query = "select products_id from Product where Brand_name=? and Brand_type=? and Brand_size=? and color=? ";
+	public  ResultSet findProductId(Product product) {
+		String query = "select products_id ,prices from Product where Brand_name=? and Brand_type=? and Brand_size=? and color=? ";
 		ConnectionUtil conUtil = new ConnectionUtil();
 		Connection con = ConnectionUtil.getDbconnection();
 		PreparedStatement pstmt=null;
@@ -118,16 +119,17 @@ public class ProductDaoImpl implements ProductDao {
 			pstmt.setInt(3, product.getBrandSize());
 			pstmt.setString(4,product.getColor());
 			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				proId = rs.getInt(1);
-			}
-
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
+			return rs;
+//			while (rs.next()) {
+//				proId = rs.getInt(1);
+//			}
+//
+		} catch (SQLException e1) {			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		return null;
 
-		return proId;
+	
 		
 	}
 	public  Product findProduct(String proName,String proType,int bdSize,String colorName) {
@@ -166,7 +168,7 @@ public class ProductDaoImpl implements ProductDao {
 			stmt=con.createStatement();
 			ResultSet rs=stmt.executeQuery(Query);
 			if(rs.next()) {
-				product =new Product(rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getDouble(6),rs.getDate(7));
+				product =new Product(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getDouble(6),rs.getDate(7));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -208,7 +210,7 @@ public class ProductDaoImpl implements ProductDao {
 		return SizeList;
 	}
 
-	@Override
+	
 	public List<Product> showProduct(int productID) {
 		List<Product> productsList = new ArrayList<Product>();
 		String showQuery = "select * from Product where products_id='"+productID+"'";
@@ -219,7 +221,7 @@ public class ProductDaoImpl implements ProductDao {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(showQuery);
 			while (rs.next()) {
-				products = new Product(productID,rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getDouble(6),
+				products = new Product(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getDouble(6),
 						rs.getDate(7));
 				productsList.add(products);
 			}
@@ -230,5 +232,12 @@ public class ProductDaoImpl implements ProductDao {
 		return productsList;
 		
 	}
+
+	
+
+	
+	
+
+	
 	
 }

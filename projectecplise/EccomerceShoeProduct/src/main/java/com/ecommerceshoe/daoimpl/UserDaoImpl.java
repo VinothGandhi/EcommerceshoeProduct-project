@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ecommerceshoe.Dao.UserDao;
 import com.ecommerceshoe.model.Admin;
@@ -54,7 +56,7 @@ public class UserDaoImpl implements UserDao {
 			if (rs.next()) {
 				// System.out.println(rs.getString(2)+" "+rs.getLong(3));
 
-				user = new Users(rs.getString(2),password,rs.getLong(4),email,rs.getString(6),rs.getDouble(7));
+				user = new Users(rs.getInt(1),rs.getString(2),password,rs.getLong(4),email,rs.getString(6),rs.getDouble(7));
 				System.out.println(user);
 			}
 
@@ -114,44 +116,30 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	
 	}
-	public Users findUserId(int id) {
-		ConnectionUtil conUtil = new ConnectionUtil();
-		Connection con = ConnectionUtil.getDbconnection();
-		String Query="select * from Users1 where user_id='"+id+"'";
-		Users user=null;
-		Statement stmt;
-		try {
-			stmt=con.createStatement();
-			ResultSet rs=stmt.executeQuery(Query);
-			if(rs.next()) {
-				user =new Users(rs.getString(2),rs.getString(3),rs.getLong(4),rs.getString(5),rs.getString(6),rs.getDouble(7));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	return user;
-	}
+
+
 	
-	public   int updateuserWallet(Users user) {
+	
+	public  int updateuserWallet(Users user,double amount) {
 		ConnectionUtil conUtil = new ConnectionUtil();
 		Connection con = ConnectionUtil.getDbconnection();
-		String Query="update users1 set wallet=? where email_id=?";
-		String getWalletquery="select wallet from users1 where email_id=?";
+		String Query="update users1 set wallet=wallet+? where email_id=?";
+//		String getWalletquery="select wallet from users1 where email_id=?";
 		PreparedStatement pstmt=null;
 		int i=0;
 		try {
-		  pstmt = con.prepareStatement(getWalletquery);
-			pstmt.setString(1,user.getEmail());
-	       ResultSet rs=pstmt.executeQuery();
-	       double wallet=0;
-	       if(rs.next()) {
-	    	   wallet=rs.getDouble(1);
-	       }
+//		  pstmt = con.prepareStatement(getWalletquery);
+//			pstmt.setString(1,user.getEmail());
+//			System.out.println(user.getEmail());
+//	       ResultSet rs=pstmt.executeQuery();
+//	       double wallet=0;
+//	       if(rs.next()) {
+//	    	   wallet=rs.getDouble(1);
+//	    	   System.out.println(wallet);
+//	       } 
+			System.out.println(user.getWallet());
 	       pstmt = con.prepareStatement(Query);
-	       pstmt.setDouble(1,wallet+user.getWallet());
+	       pstmt.setDouble(1,amount);
 	       pstmt.setString(2,user.getEmail());
 	        i=pstmt.executeUpdate();
 	       System.out.println(i+"updated");
@@ -160,6 +148,8 @@ public class UserDaoImpl implements UserDao {
 		
 			e.printStackTrace();
 		}
+		
+		
 		return i;
 
 	}
@@ -195,5 +185,55 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+
+	public Users findUserId(int id) {
+		String Query1="select  * from Users1 where user_id="+id;
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = ConnectionUtil.getDbconnection();
+		Statement stmt=null;
+		Users user=null;
+		try
+		{
+			stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery(Query1);
+			if (rs.next()) {
+				// System.out.println(rs.getString(2)+" "+rs.getLong(3));
+
+				user = new Users(rs.getString(2),rs.getString(3),rs.getLong(4),rs.getString(5),rs.getString(6),rs.getDouble(7));
+				//System.out.println(user);
+			}
+
+		} catch (SQLException e) {
+			// T5ODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Statement error");
+		}
+		// TODO Auto-generated method stub
+		return user;
+	}
+
+	public boolean RefundWallet(Users user,double price) {
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = ConnectionUtil.getDbconnection();
+		UserDaoImpl userdao = new UserDaoImpl();
+		int userId = userdao.findUserID(user);
+		String updateQuery1 = "update Users1 set wallet='" + (user.getWallet() + price) + "'where user_id='"
+				+ userId+"'";
+		boolean flag = false;
+		try {
+			Statement stmt = con.createStatement();
+			flag = stmt.executeUpdate(updateQuery1) > 0;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return flag;
+		
+	}
+	
+	
+	
 	
 }

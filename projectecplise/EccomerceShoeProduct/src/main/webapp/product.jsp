@@ -7,7 +7,7 @@
 <title>Insertproduct</title>
 <style>
         label{
-            width:80px;
+            width:120px;
             display: inline-block;
         }
         </style>    
@@ -30,9 +30,10 @@
             <input type="number" name="pri" id="Price" list="pri"required><br><br>
             
              <label for="manufacturedate"><strong>ManufactureDate:</strong></label>
-            <input type="date" name="manufacture" id="mdate" list="mdate" placeholder="dd-mm-yyyy" value=""
-         required><br><br><br>
-
+            <input type="date" name="manufacture" id="mdate" list="mdate" placeholder="yyyy-mm-dd" value=""
+         required><br><br>
+              
+          
             
             <div>
                 <button><strong>Submit</strong></button>&nbsp; &nbsp; &nbsp; &nbsp;

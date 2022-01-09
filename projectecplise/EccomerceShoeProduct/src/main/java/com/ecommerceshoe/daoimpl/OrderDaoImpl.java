@@ -29,14 +29,15 @@ public class OrderDaoImpl implements OrderDao {
 			UserDaoImpl userdao=new UserDaoImpl();
 			ProductDaoImpl productdao=new ProductDaoImpl();
 			int userId=userdao.findUserID(orders.getUser());
-		    int productId=productdao.findProductId(orders.getProduct());
-			pstmt.setInt(1,userId);
-			pstmt.setInt(2, productId);
+		    ResultSet productId=productdao.findProductId(orders.getProduct());
+			if(productId.next())
+		    pstmt.setInt(1,userId);
+			pstmt.setInt(2, productId.getInt(1));
 			pstmt.setInt(3,orders.getQuantity());
-			pstmt.setDouble(4,orders.getProduct().getPrices()*orders.getQuantity());
+			pstmt.setDouble(4,orders.getPrice());
 			pstmt.setDate(5, new java.sql.Date(orders.getOrderDate().getTime()));
 			 i = pstmt.executeUpdate();
-			 
+				return i;		 
 		} catch (SQLException e) {
 			// catch the exception and get that message
 			e.printStackTrace();
@@ -46,11 +47,12 @@ public class OrderDaoImpl implements OrderDao {
 		return i;
 	
 	}
-	public List<Order> ShowOrder(){
+	public List<Order> ShowOrder(Users user){
 		ConnectionUtil conUtil = new ConnectionUtil();
 		Connection con = conUtil.getDbconnection();
+		System.out.println(user.getUserid());
 		List<Order> orderList=new ArrayList<Order>();
-		String Query="select * from Orders_details";
+		String Query="select * from Orders_details where User_id='"+user.getUserid()+"'";
 	   Statement stmt;
 	   Order order=null;
 	try {
@@ -61,10 +63,10 @@ public class OrderDaoImpl implements OrderDao {
 	   
 		
 		while(rs.next()) {
-			   
-		   Users user=userdao.findUserId(rs.getInt(3));
+			    
+		   Users user1=userdao.findUserId(rs.getInt(3));
 		   Product product=productdao.findProduct(rs.getInt(2));
-		    order=new Order( product,user,rs.getInt(4),rs.getDouble(5),rs.getDate(6));
+		    order=new Order(rs.getInt(1), product,user1,rs.getInt(4),rs.getDouble(5),rs.getDate(6),rs.getString(7));
 		    orderList.add(order);
 			
 		}
@@ -77,5 +79,23 @@ public class OrderDaoImpl implements OrderDao {
 		
 	return orderList;
 	}
+	public boolean orderCancel(int order_id) {
+		ConnectionUtil conUtil = new ConnectionUtil();
+		Connection con = conUtil.getDbconnection();
+		String query="update Orders_details set status='cancel' where Order_id='"+order_id+"'";
+		 Statement stmt;
+		 boolean b=false;
+		 try {
+			stmt = con.createStatement();
+		 b=stmt.executeUpdate(query) > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return b;
+		
+	}
+	
 }
 

@@ -7,6 +7,7 @@ public class cart {
 	private Users user;
 	private int quantity;
 	private double price;
+	
 	public Product getProduct() {
 		return product;
 	}

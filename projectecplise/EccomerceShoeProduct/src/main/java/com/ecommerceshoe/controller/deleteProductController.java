@@ -33,7 +33,7 @@ public class deleteProductController extends HttpServlet {
 		ProductDaoImpl productdao=new ProductDaoImpl();
 	int i2=	productdao.delete(productid);
 	if(i2!=0) {
-		resp.sendRedirect("index.jsp");
+		resp.sendRedirect("User.jsp");
 	}
 	else {
 		resp.sendRedirect("product.jsp");

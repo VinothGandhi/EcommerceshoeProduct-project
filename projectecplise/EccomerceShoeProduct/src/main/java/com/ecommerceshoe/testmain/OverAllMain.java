@@ -389,7 +389,7 @@ public class OverAllMain {
 			int cvv = Integer.parseInt(sc.nextLine());
 			user.setWallet(amount);
 			
-			userDao.updateuserWallet(user);
+			userDao.updateuserWallet(user,amount);
 			
 			System.out.println("do you continue yes or no");
 			stop = sc.nextLine().charAt(0);
@@ -399,7 +399,7 @@ public class OverAllMain {
 			break;
 		case 4:
 			OrderDaoImpl orderdao =new OrderDaoImpl();
-			List<Order> orderList=orderdao.ShowOrder();
+			List<Order> orderList=orderdao.ShowOrder(user);
 			for(int j=0;j<orderList.size();j++) {
 				System.out.println(orderList.get(j));
 			} break;
@@ -444,7 +444,7 @@ public class OverAllMain {
 
 		case 6:
 			CartDaoImpl cartDao11 =new CartDaoImpl();
-			List<cart> cartList=cartDao11.showCart();
+			List<cart> cartList=cartDao11.showCart( user);
 			for(int j=0;j<cartList.size();j++) {
 				System.out.println(cartList.get(j));
 			} break;

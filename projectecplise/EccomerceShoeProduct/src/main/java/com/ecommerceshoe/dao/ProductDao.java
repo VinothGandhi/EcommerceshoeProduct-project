@@ -1,5 +1,6 @@
 package com.ecommerceshoe.Dao;
 
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ProductDao {
 	public int delete(int productId);
 	public List<Product> showProduct();
 	public List<Product> showProduct(int productID);
-	public  int findProductId(Product product);
+	public  ResultSet findProductId(Product product);
 	public  Product findProduct(String proName,String proType,int bdSize,String colorName);
 	public Product findProduct(int id);
 	public List<Product> filterSize(String name,int size);

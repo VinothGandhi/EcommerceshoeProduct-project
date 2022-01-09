@@ -41,6 +41,7 @@ select * from users1;
 
 drop table product cascade CONSTRAINTS;
 select * from Product;
+alter table product add product_images varchar2(1000);
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ select * from Product;
   alter table Orders_details add Status varchar2(100) default'Not Delivered';
   drop table  Orders_details cascade CONSTRAINTS;
   DESC Orderss1;
+  delete from Orders_details where products_id=142;
  ----------------------------------------------------------------------------------------------------------------------------------------
  
  --Orderitems
@@ -77,6 +79,7 @@ select * from Product;
  
  drop taBLE Cart_details cascade CONSTRAINTS;
   select * from  Cart_details; 
+  delete from Cart_details where  products_id=142;
  -------------------------------------------------------------------------------------------------------------------------------------------
  
  --InvoiceDetails
@@ -92,5 +95,16 @@ select * from Product;
  alter table users1 modify Wallet int default 5000;
  
  --------------------------------------------------------------------------------------------------------------------------------------------
+ select * from Orders_details where User_id=1;
  
  
+ 
+ update users1 set wallet=500 where email_id='gowtham2@gmail.com';
+ commit;
+ 
+ 
+ select wallet from users1 where email_id='gowtham2@gmail.com';
+ 
+ 
+ delete from product where products_id=103;
+ commit;

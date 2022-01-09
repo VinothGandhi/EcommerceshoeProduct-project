@@ -3,12 +3,22 @@ package com.ecommerceshoe.model;
 import java.util.Objects;
 
 public class Users {
+	private int userid;
 	private String Name;
 	private String password;
 	private Long mobileNo;
 	private String email;
 	private String Address;
 	private Double wallet;
+
+	
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
 
 	public String getName() {
 		return Name;
@@ -68,12 +78,28 @@ public class Users {
 		this.Address = address;
 		this.wallet=wallet;
 	}
-
+	public Users(int userid, String name, String password, Long mobileNo, String email, String address,double wallet) {
+		super();
+		this.userid=userid;
+		this.Name = name;
+		this.password = password;
+		this.mobileNo = mobileNo;
+		this.email = email;
+		this.Address = address;
+		this.wallet=wallet;
+	}
+	public Users(String email) {
+		super();
+		this.email = email;
+	}
 	
 	public Users() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	
+	
 
 	@Override
 	public String toString() {

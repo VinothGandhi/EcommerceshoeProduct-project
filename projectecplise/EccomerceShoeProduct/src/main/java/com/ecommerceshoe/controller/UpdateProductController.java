@@ -39,7 +39,7 @@ public class UpdateProductController extends HttpServlet {
 		ProductDaoImpl productdao=new ProductDaoImpl();
 		int i1=productdao.updated(brandSize, price,productid);
 		if(i1!=0) {
-			resp.sendRedirect("index.jsp");
+			resp.sendRedirect("User.jsp");
 		}
 		else {
 			resp.sendRedirect("product.jsp");

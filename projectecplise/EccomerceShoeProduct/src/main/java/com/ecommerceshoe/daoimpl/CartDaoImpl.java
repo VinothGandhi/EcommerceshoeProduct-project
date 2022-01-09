@@ -29,11 +29,12 @@ public  int insertCart(cart carts) {
 			UserDaoImpl userdao=new UserDaoImpl();
 			ProductDaoImpl productdao=new ProductDaoImpl();
 			int userId=userdao.findUserID(carts.getUser());
-		    int productId=productdao.findProductId(carts.getProduct());
+		    ResultSet productId=productdao.findProductId(carts.getProduct());
+		    if(productId.next())
 			pstmt.setInt(1,userId);
-			pstmt.setInt(2, productId);
+			pstmt.setInt(2, productId.getInt(1));
 			pstmt.setInt(3,carts.getQuantity());
-			pstmt.setDouble(4,carts.getProduct().getPrices()*carts.getQuantity());
+			pstmt.setDouble(4,carts.getPrice());
 			
 			 i = pstmt.executeUpdate();
 		
@@ -47,9 +48,9 @@ public  int insertCart(cart carts) {
 		return i;
 	
 	}
-public List<cart> showCart() {
+public List<cart> showCart(Users user) {
 	List<cart> cartList = new ArrayList<cart>();
-	String showQuery = "select * from  Cart_details";
+	String showQuery = "select * from  Cart_details  where User_id="+user.getUserid();
 	ConnectionUtil conUtil = new ConnectionUtil();
 	Connection con = ConnectionUtil.getDbconnection();
 	cart carts=null;
@@ -59,7 +60,7 @@ public List<cart> showCart() {
 		   ProductDaoImpl productdao=new ProductDaoImpl();
 		ResultSet rs = stmt.executeQuery(showQuery);
 		while (rs.next()) {
-			  Users user=userdao.findUserId(rs.getInt(3));
+			  Users user1=userdao.findUserId(rs.getInt(3));
 			   Product product=productdao.findProduct(rs.getInt(2));
 			   carts=new cart( product,user,rs.getInt(4),rs.getDouble(5));
 			    cartList.add(carts);

@@ -8,11 +8,36 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+#prod {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#prod td, #prod th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#prod tr:nth-child(even){background-color: #f2f2f2;}
+
+#prod tr:hover {background-color: #ddd;}
+
+#prod th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
 </head>
-<body style="text-align: center;"><form action="deleteProductController" method="post"> <div>
-<h1>ShowProduct</h1>
+<body style=" background-color: pink">
+<form action="deleteProductController" method="post"></form> <div>
+<h1 style="text-align: center">ShowProduct</h1>
 <div>
-<table>
+<table id="prod">
 <tr>
 <th>
 productId</th>
@@ -47,22 +72,21 @@ for (int i = 0; i < ProductList.size(); i++) {%>
 <td>
 <%=ProductList.get(i).getColor() %></td>
 <td> <%=ProductList.get(i).getPrices() %></td>
-<td><%=ProductList.get(i).getManufactureDate() %>
+<td><%=ProductList.get(i).getManufactureDate() %></td>
+<td><a href="deleteProduct.jsp?prodId=<%=ProductList.get(i).getProductId()%>"><button><strong>Delete</strong></button></a></td>
 </tr>
 <%
 }
 
 %>
+
 </table>
+<%int proId=Integer.parseInt(request.getParameter("prodId")); 
+ productdao.delete(proId);
+%>
+
 </div>
-<h1>DELETE PRODUCT</h1>
 
-             <label for="ProductId"><strong>Productid:</strong></label>
-            <input type="number" name="proid" id="proid" list="proid" required><br><br>
-            <div>
-                <button><strong>Submit</strong></button>&nbsp; &nbsp; &nbsp; &nbsp;
-                <button type="reset"><strong>Reset</strong></button>
-            </div>
-
+</div>
 </body>
 </html>

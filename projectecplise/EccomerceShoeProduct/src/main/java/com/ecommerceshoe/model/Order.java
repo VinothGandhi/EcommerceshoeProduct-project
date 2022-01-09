@@ -4,12 +4,20 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Order {
+	private int orderId;
 	private Product product;
 	private Users user;
 	private int quantity;
 	private double price;
 	private Date orderDate;
+	private String status; 
 	
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	public Product getProduct() {
 		return product;
 	}
@@ -40,6 +48,13 @@ public class Order {
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Order(Product product, Users user, int quantity,Date orderDate) {
 		super();
 		this.product = product;
@@ -59,6 +74,25 @@ public class Order {
 		this.quantity=int1;
 		this.price=double1;
 		this.orderDate=date;
+	}
+	
+	public Order(Product product2, Users user2, int quantity2, double price2, Date orderDate2) {
+		this.product=product2;
+		this.user=user2;
+		this.quantity=quantity2;
+		this.price=price2;
+		this.orderDate=orderDate2;
+	}
+	
+	public Order(int orderId, Product product, Users user, int quantity, double price, Date orderDate,String status) {
+		super();
+		this.orderId = orderId;
+		this.product = product;
+		this.user = user;
+		this.quantity = quantity;
+		this.price = price;
+		this.orderDate = orderDate;
+		this.status=status;
 	}
 	@Override
 	public String toString() {

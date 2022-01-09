@@ -17,7 +17,7 @@ import com.ecommerceshoe.model.Admin;
 /**
  * Servlet implementation class AdminController
  */
-@WebServlet("/AdminController1")
+@WebServlet("/AdminLoginController")
 public class AdminLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class AdminLoginController extends HttpServlet {
 			resp.sendRedirect("WelcomeAdmin.jsp");
 		}
 		else {
-			resp.sendRedirect("index.jsp");
+			resp.sendRedirect("User.jsp");
 		}
 	}
 

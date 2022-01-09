@@ -41,7 +41,8 @@ public class ProductController extends HttpServlet {
 	int brandSize=Integer.parseInt(req.getParameter("bsize"));
 	String color=req.getParameter("col");
 	double price=Double.parseDouble(req.getParameter("pri"));
-	SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+	
 	
 	try {
 		Date manufacturedate=sdf.parse(req.getParameter("manufacture"));
@@ -52,7 +53,7 @@ public class ProductController extends HttpServlet {
 		
 
 	if(i!=0) {
-		resp.sendRedirect("index.jsp");
+		resp.sendRedirect("User.jsp");
 	}
 	else {
 		resp.sendRedirect("product.jsp");

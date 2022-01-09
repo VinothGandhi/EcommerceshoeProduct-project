@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ecommerceshoe.daoimpl.AdminDaoImpl;
 import com.ecommerceshoe.daoimpl.UserDaoImpl;
+import com.ecommerceshoe.model.Admin;
 import com.ecommerceshoe.model.Users;
 
 
@@ -33,15 +35,27 @@ public class UserLoginController extends HttpServlet {
 		// TODO Auto-generated method stub
 		 String email=req.getParameter("UserEmail");
 		  String password=req.getParameter("Userpass");
+		 
 //		  Users user=new Users(null,password, null, email, null, 0);
+		  Admin admin=new Admin(email,password);
+			AdminDaoImpl admindao=new AdminDaoImpl();
+			admin=admindao.validateAdmin(admin.getAdminEmail(),admin.getPassword());
 		  UserDaoImpl userdao=new UserDaoImpl();
 		  Users user=userdao.validateUser(email,password);
-		  if(user!=null) {
+		 if(admin!=null) {
+			 resp.sendRedirect("WelcomeAdmin.jsp");
+		 }
+		 
+		 
+		 else if(user!=null) {
+			  HttpSession session=req.getSession();
+			  System.out.println(user.getUserid());
+			  session.setAttribute("CurrentUser",user );
+			  
 				resp.sendRedirect("showPro.jsp");
 			}
 			else {
-				HttpSession session = req.getSession();
-				session.setAttribute("upmiss", true);
+			
 				resp.sendRedirect("User.jsp");
 			}
 	}
